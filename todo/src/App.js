@@ -8,6 +8,15 @@ class App extends Component {
 
   constructor(prop){
     super();
+    this.todoRef = React.createRef();
+  }
+
+  insert(e){
+    let array = this.state.list;
+    const id  = this.state.list.length;
+    const val = this.todoRef.current.value;
+    array.push({id: id, value: val});
+    this.setState({list: array})
   }
 
   render(){
@@ -15,15 +24,21 @@ class App extends Component {
     <table>
       <thead>
         <tr>
-          <td><button>追加</button></td>
-          <td></td>
+          <td>
+            <button onClick={this.insert.bind(this)}>
+              追加
+            </button>
+          </td>
+          <td>
+            <input type="text" ref={this.todoRef} size="50" />
+          </td>
         </tr>
       </thead>
       <tbody>
         {this.state.list.map(item=><tr key={item.id}>
-            <td>{item.id}</td>
-            <td>{item.value}</td>
-          </tr>)}
+          <td>{item.id}</td>
+          <td>{item.value}</td>
+        </tr>)}
       </tbody>
     </table>
   </div>
