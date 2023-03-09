@@ -2,6 +2,8 @@
   "name": "todo",
   "version": "0.1.0",
   "private": true,
+  "main": "public/electron.js",
+  "homepage": ".",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -13,11 +15,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "react-start": "react-scripts start",
+    "react-start": "cross-env BROWSER=none react-scripts start",
     "react-build": "react-scripts build",
     "react-test": "react-scripts test",
     "react0-eject": "react-scripts eject",
-    "start-electron": "wait-on http://localhost:3000 && electron .",
+    "start-electron": "electron .",
     "electron-build": "electron-builder",
     "electron-start": "run-p react-start start-electron",
     "start": "react-scripts start",
