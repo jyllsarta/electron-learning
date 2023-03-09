@@ -1,0 +1,11 @@
+.App{
+  padding: 10px;;
+}
+
+td {
+  border: 1px solid black;
+}
+
+button, input{
+  margin: 5px;
+}
