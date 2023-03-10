@@ -1,9 +1,40 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import './App.css';
 
 function App() {
-  const [postcode, setPosecode] = useState("");
+  const [postcode, setPostcode] = useState("");
   const [post, setPost] = useState("検索中...");
+
+  useEffect(() => {
+    (async() => {
+      await getCSV();
+    })();
+  }, []);
+
+  // これuseEffectごとにやるの凄まじいコストかけてない！？
+  async function getCSV(){
+    const str = "9503122";
+    let req = new XMLHttpRequest();
+    req.open("get", "KEN_ALL.csv", true);
+    req.send(null);
+    req.onload = function() {
+      getPostcode(req.responseText, str);
+    }
+    setPostcode(str);
+  }
+
+  function getPostcode(str, code){
+    let tmp = str.split("\n");
+    // 18MBのCSVに向かって O(n) 処理するのムズムズする しかもこれ今後複数回呼ばれそう
+    tmp.forEach(element => {
+      let el = element.replace(/"/g, "");
+      let result = el.split(",");
+      if(result[2] === code) {
+        setPost(result[6] + result[7] + result[8]);
+        return;
+      }
+    })
+  }
 
   return (
     <div className="App">
