@@ -8,12 +8,13 @@ function App() {
   useEffect(() => {
     (async() => {
       await getCSV();
-    })();
+    })()
   }, []);
 
   // これuseEffectごとにやるの凄まじいコストかけてない！？
   async function getCSV(){
-    const str = "9503122";
+    // 気持ち的にはブラウザ互換を残したい
+    const str = window.electronAPI ? await window.electronAPI.openPrompt() : "9503122";
     let req = new XMLHttpRequest();
     req.open("get", "KEN_ALL.csv", true);
     req.send(null);
