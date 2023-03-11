@@ -9,14 +9,29 @@ class App extends Component {
   constructor(prop){
     super();
     this.todoRef = React.createRef();
+    this.create();
   }
 
-  insert(e){
-    let array = this.state.list;
-    const id  = this.state.list.length;
+  componentDidMount(){
+    this.select();
+  }
+
+  async create(){
+    await window.electronAPI.execSql("create");
+  }
+
+  async insert(e){
     const val = this.todoRef.current.value;
-    array.push({id: id, value: val});
-    this.setState({list: array})
+    await window.electronAPI.execSql("insert", val);
+  }
+
+  async select(){
+    const rows = await window.electronAPI.execSql("select");
+    let array = [];
+    rows.forEach(element => {
+      array.push({id: element.id, value: element.todo})
+    })
+    this.setState({list: array});
   }
 
   render(){
